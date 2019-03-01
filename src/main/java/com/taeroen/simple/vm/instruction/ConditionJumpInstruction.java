@@ -1,13 +1,13 @@
-package com.taeroen.simple.vm.instruct;
+package com.taeroen.simple.vm.instruction;
 
 import com.taeroen.simple.vm.Register;
 import com.taeroen.simple.vm.VirtualMachine;
 
-public class ConditionJumpInstruct extends VMInstruct {
+public class ConditionJumpInstruction extends VMInstruction {
 
     private int pointer;
 
-    public ConditionJumpInstruct(int pointer) {
+    public ConditionJumpInstruction(int pointer) {
         this.pointer = pointer;
     }
 

@@ -1,8 +1,8 @@
-package com.taeroen.simple.vm.instruct;
+package com.taeroen.simple.vm.instruction;
 
 import com.taeroen.simple.vm.VirtualMachine;
 
-public abstract class VMInstruct {
+public abstract class VMInstruction {
     public void visit(VirtualMachine vm) {
         visit0(vm);
         System.out.println("EXEC:"+toString());

@@ -10,12 +10,18 @@ public class OperandUtil {
      * 寄存器: 寄存器名
      * 指针:   *+数字
      */
-    public static Operand build(String string){
-        if (string.matches("^\\*[0-9]*$")){
-            return new PointerInt(Integer.valueOf(string.split("\\*")[1]));
+    public static Operand build(String string) {
+        if (string.matches("^\\*[0-9]*$")) {
+            return new PointerInt(Integer.parseInt(string.split("\\*")[1]));
         }
-        if (string.matches("^[0-9]*$")){
-            return new ImmediateInt(Integer.valueOf(string));
+        if (string.matches("^\\*0x[0-9]*$")) {
+            return new PointerInt(Integer.parseInt(string.split("\\*0x")[1], 16));
+        }
+        if (string.matches("^[0-9]*$")) {
+            return new ImmediateInt(Integer.parseInt(string));
+        }
+        if (string.matches("^0x[0-9]*$")) {
+            return new ImmediateInt(Integer.parseInt(string.split("0x")[1], 16));
         }
         return new RegisterInt(Register.valueOf(string));
     }

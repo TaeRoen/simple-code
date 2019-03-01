@@ -1,9 +1,12 @@
 package com.taeroen.simple.vm;
 
 import com.taeroen.simple.vm.Operand.Operand;
-import com.taeroen.simple.vm.instruct.ConditionJumpInstruct;
-import com.taeroen.simple.vm.instruct.ExitInstruct;
-import com.taeroen.simple.vm.instruct.VMInstruct;
+import com.taeroen.simple.vm.instruction.ConditionJumpInstruction;
+import com.taeroen.simple.vm.instruction.ExitInstruction;
+import com.taeroen.simple.vm.instruction.VMInstruction;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 地址总线:   16位
@@ -11,14 +14,15 @@ import com.taeroen.simple.vm.instruct.VMInstruct;
  * 总计数据区: 65536*4
  * start:     执行0地址指令
  * exit:      PC设置为65536,返回值为data[0]
- *
+ * <p>
  * 遇到空指令时执行下一条指令
  * 最后一条指令为退出指令 返回值为65535
  */
 public class SimpleVirtualMachine implements VirtualMachine {
-    private static final int MAX_POINTER = 0x10000;
-    private int[] data;
-    private VMInstruct[] instructZone;
+    private static final int MAX_INT = 0x7FFFFFFF;
+    private static final int ZERO = 0;
+    private Map<Integer, Integer> data;
+    private Map<Integer, VMInstruction> instruction;
     private RegisterFile PC; // Program Counter
     private RegisterFile SP; // Stack Point
     private RegisterFile RR; // Result RegisterFile
@@ -32,9 +36,9 @@ public class SimpleVirtualMachine implements VirtualMachine {
     private RegisterFile R7; // RegisterFile 7
 
     public SimpleVirtualMachine() {
-        data = new int[MAX_POINTER];
-        instructZone = new VMInstruct[MAX_POINTER];
-        instructZone[MAX_POINTER-1] = new ExitInstruct(MAX_POINTER-1);
+        data = new ConcurrentHashMap<>();
+        instruction = new ConcurrentHashMap<>();
+        instruction.put(-1, new ExitInstruction(MAX_INT));
         PC = new RegisterFile(RegisterFile.PC);
         SP = new RegisterFile(RegisterFile.SP);
         RR = new RegisterFile(RegisterFile.RR);
@@ -49,10 +53,10 @@ public class SimpleVirtualMachine implements VirtualMachine {
     }
 
     @Override
-    public void accept(VMInstruct instruct) {
+    public void accept(VMInstruction instruct) {
         if (instruct != null) {
             instruct.visit(this);
-            if(!(instruct instanceof ConditionJumpInstruct)){
+            if (!(instruct instanceof ConditionJumpInstruction)) {
                 next();
             }
         } else {
@@ -62,8 +66,8 @@ public class SimpleVirtualMachine implements VirtualMachine {
     }
 
     @Override
-    public void setInstruct(int pointer, VMInstruct instruct) {
-        instructZone[pointer] = instruct;
+    public void setInstruct(int pointer, VMInstruction instruct) {
+        instruction.put(pointer, instruct);
     }
 
     /**
@@ -72,11 +76,11 @@ public class SimpleVirtualMachine implements VirtualMachine {
     @Override
     public void start() {
         PC.writeInt(0);
-        while (PC.getInt() < MAX_POINTER) {
-            VMInstruct instruct = instructZone[PC.getInt()];
+        while (PC.getInt() >= ZERO) {
+            VMInstruction instruct = instruction.get(PC.getInt());
             accept(instruct);
         }
-        System.out.println("VM::EXIT(" + data[0] + ")");
+        System.out.println("VM::EXIT(" + data.get(ZERO) + ")");
         dump();
     }
 
@@ -91,9 +95,9 @@ public class SimpleVirtualMachine implements VirtualMachine {
     }
 
     @Override
-    public void exit(int value) {
-        PC.writeInt(MAX_POINTER);
-        data[0] = value;
+    public void exit(int code) {
+        PC.writeInt(MAX_INT);
+        data.put(ZERO, code);
     }
 
     @Override
@@ -102,9 +106,9 @@ public class SimpleVirtualMachine implements VirtualMachine {
         System.out.println(PC + "\t" + SP + "\t" + RR);
         System.out.println(R0 + "\t" + R1 + "\t" + R2 + "\t" + R3);
         System.out.println(R4 + "\t" + R5 + "\t" + R6 + "\t" + R7);
-        for (int i = 0; i < MAX_POINTER; i++) {
-            if (data[i] != 0) {
-                System.out.printf("0x%08x 0x%08x\n", i, data[i]);
+        for (int i = 0; i < MAX_INT; i++) {
+            if (data.get(i) != null) {
+                System.out.printf("0x%08x 0x%08x\n", i, data.get(i));
             }
         }
         System.out.println("---- END DUMP ----");
@@ -152,7 +156,11 @@ public class SimpleVirtualMachine implements VirtualMachine {
 
     @Override
     public int readInt(int pointer) {
-        return data[pointer];
+        Integer res = data.get(pointer);
+        if (res != null) {
+            return res;
+        }
+        return ZERO;
     }
 
     @Override
@@ -168,7 +176,7 @@ public class SimpleVirtualMachine implements VirtualMachine {
 
     @Override
     public void writeInt(int pointer, int value) {
-        data[pointer] = value;
+        data.put(pointer, value);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.taeroen.simple.vm;
 
-import com.taeroen.simple.vm.instruct.*;
+import com.taeroen.simple.vm.instruction.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,7 +9,7 @@ public class SimpleVirtualMachineTest {
     SimpleVirtualMachine vm;
     int pointer;
 
-    public void addInstruct(VMInstruct instruct) {
+    public void addInstruct(VMInstruction instruct) {
         vm.setInstruct(pointer, instruct);
         pointer++;
     }
@@ -22,21 +22,21 @@ public class SimpleVirtualMachineTest {
 
     @Test
     public void exec() {
-        addInstruct(new MoveInstruct("1024", "R0"));
-        addInstruct(new MoveInstruct("1025", "R1"));
-        addInstruct(new MoveInstruct("R0", "*1024"));
-        addInstruct(new MoveInstruct("*1024", "R2"));
-        addInstruct(new MoveInstruct("R2", "R3"));
-        addInstruct(new AddInstruct("R0", "R1", "R4"));
-        addInstruct(new DivInstruct("R1", "R0", "R7"));
-        addInstruct(new MoveInstruct("5", "R0"));
-        addInstruct(new MoveInstruct("1", "R1"));
-        addInstruct(new AddInstruct("R1", "1", "R1"));
-        addInstruct(new AndInstruct("R0","R1"));
-        addInstruct(new NonInstruct("RR","RR"));
-        addInstruct(new ConditionJumpInstruct(9));
-        vm.setInstruct(1000, new ExitInstruct(1000));
-        vm.setInstruct(2000, new ExitInstruct(2000));
+        addInstruct(new MoveInstruction("0x400", "R0"));
+        addInstruct(new MoveInstruction("1025", "R1"));
+        addInstruct(new MoveInstruction("R0", "*0x400"));
+        addInstruct(new MoveInstruction("*1024", "R2"));
+        addInstruct(new MoveInstruction("R2", "R3"));
+        addInstruct(new AddInstruction("R0", "R1", "R4"));
+        addInstruct(new DivInstruction("R1", "R0", "R7"));
+        addInstruct(new MoveInstruction("5", "R0"));
+        addInstruct(new MoveInstruction("1", "R1"));
+        addInstruct(new AddInstruction("R1", "1", "R1"));
+        addInstruct(new AndInstruction("R0","R1"));
+        addInstruct(new NonInstruction("RR","RR"));
+        addInstruct(new ConditionJumpInstruction(9));
+        vm.setInstruct(1000, new ExitInstruction(1000));
+        vm.setInstruct(2000, new ExitInstruction(2000));
         vm.start();
     }
 }

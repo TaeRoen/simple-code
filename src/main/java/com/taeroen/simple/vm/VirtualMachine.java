@@ -1,10 +1,10 @@
 package com.taeroen.simple.vm;
 
 import com.taeroen.simple.vm.Operand.Operand;
-import com.taeroen.simple.vm.instruct.VMInstruct;
+import com.taeroen.simple.vm.instruction.VMInstruction;
 
 public interface VirtualMachine {
-    public void accept(VMInstruct instruct);
+    public void accept(VMInstruction instruct);
 
     int readInt(Operand operand);
 
@@ -18,7 +18,7 @@ public interface VirtualMachine {
 
     void writeInt(int pointer, int value);
 
-    void setInstruct(int pointer, VMInstruct instruct);
+    void setInstruct(int pointer, VMInstruction instruct);
 
     void start();
 

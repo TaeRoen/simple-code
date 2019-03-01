@@ -1,12 +1,12 @@
-package com.taeroen.simple.vm.instruct;
+package com.taeroen.simple.vm.instruction;
 
 import com.taeroen.simple.vm.VirtualMachine;
 
-public class ExitInstruct extends VMInstruct {
+public class ExitInstruction extends VMInstruction {
 
     private int value;
 
-    public ExitInstruct(int value) {
+    public ExitInstruction(int value) {
         this.value = value;
     }
 

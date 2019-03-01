@@ -1,10 +1,10 @@
-package com.taeroen.simple.vm.instruct;
+package com.taeroen.simple.vm.instruction;
 
 import com.taeroen.simple.vm.Operand.Operand;
 import com.taeroen.simple.vm.Operand.OperandUtil;
 import com.taeroen.simple.vm.VirtualMachine;
 
-public class AddInstruct extends VMInstruct {
+public class AddInstruction extends VMInstruction {
     Operand addend1;
     Operand addend2;
     Operand sum;
@@ -17,7 +17,7 @@ public class AddInstruct extends VMInstruct {
         vm.writeInt(this.sum, sum);
     }
 
-    public AddInstruct(String addend1, String addend2, String sum) {
+    public AddInstruction(String addend1, String addend2, String sum) {
         this.addend1 = OperandUtil.build(addend1);
         this.addend2 = OperandUtil.build(addend2);
         this.sum = OperandUtil.build(sum);

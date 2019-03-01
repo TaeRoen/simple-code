@@ -1,4 +1,4 @@
-package com.taeroen.simple.vm.instruct;
+package com.taeroen.simple.vm.instruction;
 
 import com.taeroen.simple.vm.Operand.Operand;
 import com.taeroen.simple.vm.Operand.OperandUtil;
@@ -6,7 +6,7 @@ import com.taeroen.simple.vm.Register;
 import com.taeroen.simple.vm.RegisterFile;
 import com.taeroen.simple.vm.VirtualMachine;
 
-public class NonInstruct extends VMInstruct {
+public class NonInstruction extends VMInstruction {
     private Operand src;
     private Operand dst;
 
@@ -19,7 +19,7 @@ public class NonInstruct extends VMInstruct {
         }
     }
 
-    public NonInstruct(String src, String dst) {
+    public NonInstruction(String src, String dst) {
         this.src = OperandUtil.build(src);
         this.dst = OperandUtil.build(dst);
     }

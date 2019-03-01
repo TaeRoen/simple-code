@@ -1,8 +1,8 @@
-package com.taeroen.simple.vm.instruct;
+package com.taeroen.simple.vm.instruction;
 
 import com.taeroen.simple.vm.VirtualMachine;
 
-public class NoneInstruct extends VMInstruct {
+public class NoneInstruction extends VMInstruction {
     @Override
     public void visit0(VirtualMachine vm) {
     }

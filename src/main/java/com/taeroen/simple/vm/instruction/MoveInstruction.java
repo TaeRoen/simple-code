@@ -1,10 +1,10 @@
-package com.taeroen.simple.vm.instruct;
+package com.taeroen.simple.vm.instruction;
 
 import com.taeroen.simple.vm.Operand.Operand;
 import com.taeroen.simple.vm.Operand.OperandUtil;
 import com.taeroen.simple.vm.VirtualMachine;
 
-public class MoveInstruct extends VMInstruct {
+public class MoveInstruction extends VMInstruction {
     private Operand src;
     private Operand dst;
 
@@ -13,7 +13,7 @@ public class MoveInstruct extends VMInstruct {
         vm.writeInt(dst, vm.readInt(src));
     }
 
-    public MoveInstruct(String src, String dst) {
+    public MoveInstruction(String src, String dst) {
         this.src = OperandUtil.build(src);
         this.dst = OperandUtil.build(dst);
     }
