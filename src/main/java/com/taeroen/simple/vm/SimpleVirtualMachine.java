@@ -5,6 +5,8 @@ import com.taeroen.simple.vm.instruction.ConditionJumpInstruction;
 import com.taeroen.simple.vm.instruction.ExitInstruction;
 import com.taeroen.simple.vm.instruction.VMInstruction;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -106,10 +108,13 @@ public class SimpleVirtualMachine implements VirtualMachine {
         System.out.println(PC + "\t" + SP + "\t" + RR);
         System.out.println(R0 + "\t" + R1 + "\t" + R2 + "\t" + R3);
         System.out.println(R4 + "\t" + R5 + "\t" + R6 + "\t" + R7);
-        for (int i = 0; i < MAX_INT; i++) {
-            if (data.get(i) != null) {
-                System.out.printf("0x%08x 0x%08x\n", i, data.get(i));
-            }
+        Integer[] pointers = new Integer[data.size()];
+        data.keySet().toArray(pointers);
+        Arrays.sort(pointers);
+        for (Integer pointer:
+             pointers) {
+            System.out.printf("0x%08x 0x%08x\n", pointer, data.get(pointer));
+
         }
         System.out.println("---- END DUMP ----");
     }

@@ -35,6 +35,12 @@ public class SimpleVirtualMachineTest {
         addInstruct(new AndInstruction("R0","R1"));
         addInstruct(new NonInstruction("RR","RR"));
         addInstruct(new ConditionJumpInstruction(9));
+        addInstruct(new MoveInstruction("0x800", "*0x300"));
+        addInstruct(new MoveInstruction("0x800", "*0x500"));
+        addInstruct(new MoveInstruction("0x800", "*0x323"));
+        addInstruct(new MoveInstruction("0x800", "*0x900"));
+        addInstruct(new MoveInstruction("0x800", "*0x100"));
+
         vm.setInstruct(1000, new ExitInstruction(1000));
         vm.setInstruct(2000, new ExitInstruction(2000));
         vm.start();
