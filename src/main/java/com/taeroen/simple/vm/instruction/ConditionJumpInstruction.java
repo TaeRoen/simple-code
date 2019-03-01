@@ -5,9 +5,9 @@ import com.taeroen.simple.vm.VirtualMachine;
 
 public class ConditionJumpInstruction extends VMInstruction {
 
-    private int pointer;
+    private long pointer;
 
-    public ConditionJumpInstruction(int pointer) {
+    public ConditionJumpInstruction(long pointer) {
         this.pointer = pointer;
     }
 

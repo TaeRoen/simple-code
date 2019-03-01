@@ -21,10 +21,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * 最后一条指令为退出指令 返回值为65535
  */
 public class SimpleVirtualMachine implements VirtualMachine {
-    private static final int MAX_INT = 0x7FFFFFFF;
-    private static final int ZERO = 0;
-    private Map<Integer, Integer> data;
-    private Map<Integer, VMInstruction> instruction;
+    private static final long MAX_INT = 0x7FFFFFFFFFFFFFFFL;
+    private static final long ZERO = 0;
+    private Map<Long, Long> data;
+    private Map<Long, VMInstruction> instruction;
     private RegisterFile PC; // Program Counter
     private RegisterFile SP; // Stack Point
     private RegisterFile RR; // Result RegisterFile
@@ -40,7 +40,7 @@ public class SimpleVirtualMachine implements VirtualMachine {
     public SimpleVirtualMachine() {
         data = new ConcurrentHashMap<>();
         instruction = new ConcurrentHashMap<>();
-        instruction.put(-1, new ExitInstruction(MAX_INT));
+        instruction.put(-1L, new ExitInstruction(MAX_INT));
         PC = new RegisterFile(RegisterFile.PC);
         SP = new RegisterFile(RegisterFile.SP);
         RR = new RegisterFile(RegisterFile.RR);
@@ -68,7 +68,7 @@ public class SimpleVirtualMachine implements VirtualMachine {
     }
 
     @Override
-    public void setInstruct(int pointer, VMInstruction instruct) {
+    public void setInstruct(long pointer, VMInstruction instruct) {
         instruction.put(pointer, instruct);
     }
 
@@ -92,12 +92,12 @@ public class SimpleVirtualMachine implements VirtualMachine {
     }
 
     @Override
-    public void jump(int pointer) {
+    public void jump(long pointer) {
         PC.writeInt(pointer);
     }
 
     @Override
-    public void exit(int code) {
+    public void exit(long code) {
         PC.writeInt(MAX_INT);
         data.put(ZERO, code);
     }
@@ -108,12 +108,12 @@ public class SimpleVirtualMachine implements VirtualMachine {
         System.out.println(PC + "\t" + SP + "\t" + RR);
         System.out.println(R0 + "\t" + R1 + "\t" + R2 + "\t" + R3);
         System.out.println(R4 + "\t" + R5 + "\t" + R6 + "\t" + R7);
-        Integer[] pointers = new Integer[data.size()];
+        Long[] pointers = new Long[data.size()];
         data.keySet().toArray(pointers);
         Arrays.sort(pointers);
-        for (Integer pointer:
+        for (Long pointer:
              pointers) {
-            System.out.printf("0x%08x 0x%08x\n", pointer, data.get(pointer));
+            System.out.printf("0x%016x 0x%016x\n", pointer, data.get(pointer));
 
         }
         System.out.println("---- END DUMP ----");
@@ -149,19 +149,19 @@ public class SimpleVirtualMachine implements VirtualMachine {
     }
 
     @Override
-    public int readInt(Operand operand) {
+    public long readInt(Operand operand) {
         return operand.readInt(this);
     }
 
     @Override
-    public int readInt(Register register) {
+    public long readInt(Register register) {
         RegisterFile file = getRegisterFile(register);
         return file.getInt();
     }
 
     @Override
-    public int readInt(int pointer) {
-        Integer res = data.get(pointer);
+    public long readInt(long pointer) {
+        Long res = data.get(pointer);
         if (res != null) {
             return res;
         }
@@ -169,18 +169,18 @@ public class SimpleVirtualMachine implements VirtualMachine {
     }
 
     @Override
-    public void writeInt(Operand operand, int value) {
+    public void writeInt(Operand operand, long value) {
         operand.writeInt(this, value);
     }
 
     @Override
-    public void writeInt(Register register, int value) {
+    public void writeInt(Register register, long value) {
         RegisterFile file = getRegisterFile(register);
         file.writeInt(value);
     }
 
     @Override
-    public void writeInt(int pointer, int value) {
+    public void writeInt(long pointer, long value) {
         data.put(pointer, value);
     }
 

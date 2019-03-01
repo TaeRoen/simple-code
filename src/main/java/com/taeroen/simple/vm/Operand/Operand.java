@@ -6,7 +6,7 @@ import com.taeroen.simple.vm.VirtualMachine;
  * 操作数
  */
 public interface Operand {
-    public int readInt(VirtualMachine vm);
+    public long readInt(VirtualMachine vm);
 
-    public void writeInt(VirtualMachine vm, int value);
+    public void writeInt(VirtualMachine vm, long value);
 }

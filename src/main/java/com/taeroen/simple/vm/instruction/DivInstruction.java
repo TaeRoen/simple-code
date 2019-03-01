@@ -11,8 +11,8 @@ public class DivInstruction extends VMInstruction {
 
     @Override
     public void visit0(VirtualMachine vm) {
-        int minuend = vm.readInt(this.minuend);
-        int subtrahend = vm.readInt(this.subtrahend);
+        long minuend = vm.readInt(this.minuend);
+        long subtrahend = vm.readInt(this.subtrahend);
         vm.writeInt(difference, minuend - subtrahend);
     }
 

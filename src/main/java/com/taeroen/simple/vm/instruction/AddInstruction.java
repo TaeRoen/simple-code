@@ -11,9 +11,9 @@ public class AddInstruction extends VMInstruction {
 
     @Override
     public void visit0(VirtualMachine vm) {
-        int addend1 = vm.readInt(this.addend1);
-        int addend2 = vm.readInt(this.addend2);
-        int sum = addend1 + addend2;
+        long addend1 = vm.readInt(this.addend1);
+        long addend2 = vm.readInt(this.addend2);
+        long sum = addend1 + addend2;
         vm.writeInt(this.sum, sum);
     }
 

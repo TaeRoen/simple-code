@@ -8,19 +8,19 @@ import java.util.Objects;
  * 立即数
  */
 public class ImmediateInt implements Operand {
-    int value;
+    long value;
 
-    public ImmediateInt(int value) {
+    public ImmediateInt(long value) {
         this.value = value;
     }
 
     @Override
-    public int readInt(VirtualMachine vm) {
+    public long readInt(VirtualMachine vm) {
         return value;
     }
 
     @Override
-    public void writeInt(VirtualMachine vm, int value) {
+    public void writeInt(VirtualMachine vm, long value) {
         this.value = value;
     }
 

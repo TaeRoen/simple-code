@@ -13,12 +13,12 @@ public class RegisterInt implements Operand {
     }
 
     @Override
-    public int readInt(VirtualMachine vm) {
+    public long readInt(VirtualMachine vm) {
         return vm.readInt(register);
     }
 
     @Override
-    public void writeInt(VirtualMachine vm, int value) {
+    public void writeInt(VirtualMachine vm, long value) {
         vm.writeInt(register, value);
     }
 

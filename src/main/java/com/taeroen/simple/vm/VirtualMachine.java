@@ -6,27 +6,27 @@ import com.taeroen.simple.vm.instruction.VMInstruction;
 public interface VirtualMachine {
     public void accept(VMInstruction instruct);
 
-    int readInt(Operand operand);
+    long readInt(Operand operand);
 
-    int readInt(Register register);
+    long readInt(Register register);
 
-    int readInt(int pointer);
+    long readInt(long pointer);
 
-    void writeInt(Operand operand, int value);
+    void writeInt(Operand operand, long value);
 
-    void writeInt(Register register, int value);
+    void writeInt(Register register, long value);
 
-    void writeInt(int pointer, int value);
+    void writeInt(long pointer, long value);
 
-    void setInstruct(int pointer, VMInstruction instruct);
+    void setInstruct(long pointer, VMInstruction instruct);
 
     void start();
 
     void next();
 
-    void jump(int pointer);
+    void jump(long pointer);
 
-    void exit(int value);
+    void exit(long value);
 
     void dump();
 

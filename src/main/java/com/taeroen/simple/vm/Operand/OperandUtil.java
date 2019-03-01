@@ -2,8 +2,6 @@ package com.taeroen.simple.vm.Operand;
 
 import com.taeroen.simple.vm.Register;
 
-import java.util.regex.Pattern;
-
 public class OperandUtil {
     /**
      * 立即数: |+数字
@@ -12,16 +10,16 @@ public class OperandUtil {
      */
     public static Operand build(String string) {
         if (string.matches("^\\*[0-9]*$")) {
-            return new PointerInt(Integer.parseInt(string.split("\\*")[1]));
+            return new PointerInt(Long.parseLong(string.split("\\*")[1]));
         }
         if (string.matches("^\\*0x[0-9]*$")) {
-            return new PointerInt(Integer.parseInt(string.split("\\*0x")[1], 16));
+            return new PointerInt(Long.parseLong(string.split("\\*0x")[1], 16));
         }
         if (string.matches("^[0-9]*$")) {
-            return new ImmediateInt(Integer.parseInt(string));
+            return new ImmediateInt(Long.parseLong(string));
         }
         if (string.matches("^0x[0-9]*$")) {
-            return new ImmediateInt(Integer.parseInt(string.split("0x")[1], 16));
+            return new ImmediateInt(Long.parseLong(string.split("0x")[1], 16));
         }
         return new RegisterInt(Register.valueOf(string));
     }

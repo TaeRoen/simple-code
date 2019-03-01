@@ -5,18 +5,18 @@ import com.taeroen.simple.vm.VirtualMachine;
 import java.util.Objects;
 
 public class PointerInt implements Operand {
-    private int pointer;
+    private long pointer;
     @Override
-    public int readInt(VirtualMachine vm) {
+    public long readInt(VirtualMachine vm) {
         return vm.readInt(pointer);
     }
 
     @Override
-    public void writeInt(VirtualMachine vm, int value) {
+    public void writeInt(VirtualMachine vm, long value) {
         vm.writeInt(pointer,value);
     }
 
-    public PointerInt(int pointer) {
+    public PointerInt(long pointer) {
         this.pointer = pointer;
     }
 

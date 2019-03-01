@@ -12,23 +12,23 @@ public class RegisterFile {
     public static final String R5 = "R5";
     public static final String R6 = "R6";
     public static final String R7 = "R7";
-    private int value = 0;
+    private long value = 0;
     private String name;
 
     public RegisterFile(String name) {
         this.name = name;
     }
 
-    public int getInt() {
+    public long getInt() {
         return value;
     }
 
-    public void writeInt(int value) {
+    public void writeInt(long value) {
         this.value = value;
     }
 
     @Override
     public String toString() {
-        return name + ":" + String.format("0x%08x",value);
+        return name + ":" + String.format("0x%016x",value);
     }
 }

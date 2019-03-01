@@ -4,19 +4,19 @@ import com.taeroen.simple.vm.VirtualMachine;
 
 public class ExitInstruction extends VMInstruction {
 
-    private int value;
+    private long code;
 
-    public ExitInstruction(int value) {
-        this.value = value;
+    public ExitInstruction(long code) {
+        this.code = code;
     }
 
     @Override
     public void visit0(VirtualMachine vm) {
-        vm.exit(value);
+        vm.exit(code);
     }
 
     @Override
     public String toString() {
-        return "Exit(" + value + ")";
+        return "Exit(" + code + ")";
     }
 }
